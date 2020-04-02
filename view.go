@@ -25,6 +25,7 @@ type View struct {
 	readCache      string
 
 	tainted   bool       // marks if the viewBuffer must be updated
+	visible   bool       // set panel visibility (by default it visible)
 	viewLines []viewLine // internal representation of the view's buffer
 
 	ei *escapeInterpreter // used to decode ESC sequences on Write
@@ -105,6 +106,7 @@ func newView(name string, x0, y0, x1, y1 int, mode OutputMode) *View {
 		Frame:   true,
 		Editor:  DefaultEditor,
 		tainted: true,
+		visible: true,
 		ei:      newEscapeInterpreter(mode),
 	}
 	return v
@@ -286,6 +288,9 @@ func (v *View) Rewind() {
 
 // draw re-draws the view's contents.
 func (v *View) draw() error {
+	if !v.visible {
+		return nil
+	}
 	maxX, maxY := v.Size()
 
 	if v.Wrap {
@@ -500,4 +505,21 @@ func (v *View) Word(x, y int) (string, error) {
 // and 0.
 func indexFunc(r rune) bool {
 	return r == ' ' || r == 0
+}
+
+// Hide view.
+func (v *View) Hide() {
+	v.visible = false
+	return
+}
+
+// Unhide view.
+func (v *View) Unhide() {
+	v.visible = true
+	return
+}
+
+// Visible shows visibility of a view.
+func (v *View) Visible() bool {
+	return v.visible
 }
