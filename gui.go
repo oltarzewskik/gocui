@@ -154,7 +154,7 @@ func (g *Gui) SetView(name string, x0, y0, x1, y1 int) (*View, error) {
 // SetViewOnTop sets the given view on top of the existing ones.
 func (g *Gui) SetViewOnTop(name string) (*View, error) {
 	for i, v := range g.views {
-		if v.name == name {
+		if v.Name == name {
 			s := append(g.views[:i], g.views[i+1:]...)
 			g.views = append(s, v)
 			return v, nil
@@ -166,7 +166,7 @@ func (g *Gui) SetViewOnTop(name string) (*View, error) {
 // SetViewOnBottom sets the given view on bottom of the existing ones.
 func (g *Gui) SetViewOnBottom(name string) (*View, error) {
 	for i, v := range g.views {
-		if v.name == name {
+		if v.Name == name {
 			s := append(g.views[:i], g.views[i+1:]...)
 			g.views = append([]*View{v}, s...)
 			return v, nil
@@ -184,7 +184,7 @@ func (g *Gui) Views() []*View {
 // ErrUnknownView if a view with that name does not exist.
 func (g *Gui) View(name string) (*View, error) {
 	for _, v := range g.views {
-		if v.name == name {
+		if v.Name == name {
 			return v, nil
 		}
 	}
@@ -208,7 +208,7 @@ func (g *Gui) ViewByPosition(x, y int) (*View, error) {
 // error ErrUnknownView if a view with that name does not exist.
 func (g *Gui) ViewPosition(name string) (x0, y0, x1, y1 int, err error) {
 	for _, v := range g.views {
-		if v.name == name {
+		if v.Name == name {
 			return v.x0, v.y0, v.x1, v.y1, nil
 		}
 	}
@@ -218,7 +218,7 @@ func (g *Gui) ViewPosition(name string) (x0, y0, x1, y1 int, err error) {
 // DeleteView deletes a view by name.
 func (g *Gui) DeleteView(name string) error {
 	for i, v := range g.views {
-		if v.name == name {
+		if v.Name == name {
 			g.views = append(g.views[:i], g.views[i+1:]...)
 			return nil
 		}
@@ -229,7 +229,7 @@ func (g *Gui) DeleteView(name string) error {
 // SetCurrentView gives the focus to a given view.
 func (g *Gui) SetCurrentView(name string) (*View, error) {
 	for _, v := range g.views {
-		if v.name == name {
+		if v.Name == name {
 			g.currentView = v
 			return v, nil
 		}

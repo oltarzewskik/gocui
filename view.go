@@ -16,7 +16,6 @@ import (
 // A View is a window. It maintains its own internal buffer and cursor
 // position.
 type View struct {
-	name           string
 	x0, y0, x1, y1 int
 	ox, oy         int
 	cx, cy         int
@@ -28,6 +27,9 @@ type View struct {
 	viewLines []viewLine // internal representation of the view's buffer
 
 	ei *escapeInterpreter // used to decode ESC sequences on Write
+
+	// Name of view
+	Name string
 
 	// BgColor and FgColor allow to configure the background and foreground
 	// colors of the View.
@@ -98,9 +100,9 @@ func (l lineType) String() string {
 }
 
 // newView returns a new View object.
-func newView(name string, x0, y0, x1, y1 int, mode OutputMode) *View {
+func newView(Name string, x0, y0, x1, y1 int, mode OutputMode) *View {
 	v := &View{
-		name:    name,
+		Name:    Name,
 		x0:      x0,
 		y0:      y0,
 		x1:      x1,
@@ -117,11 +119,6 @@ func newView(name string, x0, y0, x1, y1 int, mode OutputMode) *View {
 // Size returns the number of visible columns and rows in the View.
 func (v *View) Size() (x, y int) {
 	return v.x1 - v.x0 - 1, v.y1 - v.y0 - 1
-}
-
-// Name returns the name of the view.
-func (v *View) Name() string {
-	return v.name
 }
 
 // setRune sets a rune at the given point relative to the view. It applies the

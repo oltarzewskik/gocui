@@ -37,7 +37,7 @@ func (kb *keybinding) matchView(v *View) bool {
 	if kb.viewName == "" {
 		return true
 	}
-	return v != nil && kb.viewName == v.name
+	return v != nil && kb.viewName == v.Name
 }
 
 // Key represents special keys or keys combinations.
