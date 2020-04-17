@@ -517,6 +517,20 @@ func (g *Gui) drawFrameCorners(v *View, fgColor, bgColor Attribute) error {
 		runeTL, runeTR, runeBL, runeBR = '+', '+', '+', '+'
 	}
 
+	for _, day := range []string{"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"} {
+		if v.Name == day {
+			runeTL, runeTR, runeBL, runeBR = '┳', '┳', '┻', '┻'
+		}
+	}
+
+	if v.Name == "Monday" {
+		runeTL, runeTR, runeBL, runeBR = '┏', '┳', '┗', '┻'
+	}
+
+	if v.Name == "Sunday" {
+		runeTL, runeTR, runeBL, runeBR = '┳', '┓', '┻', '┛'
+	}
+
 	corners := []struct {
 		x, y int
 		ch   rune
